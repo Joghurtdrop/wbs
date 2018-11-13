@@ -6,7 +6,7 @@
 typedef struct node {
     int x;
     int y;
-    int guess;
+    int aproxDist;
     struct node *prev; /* needed for a doubly-linked list only */
     struct node *next; /* needed for singly- or doubly-linked lists */
 } node;
