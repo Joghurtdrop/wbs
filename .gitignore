@@ -1,6 +1,8 @@
 # Prerequisites
 *.d
 
+WBS_PE_S_1_Hilfsmittel.pdf
+
 # Object files
 *.o
 *.ko
