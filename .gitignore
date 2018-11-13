@@ -2,6 +2,7 @@
 *.d
 
 WBS_PE_S_1_Hilfsmittel.pdf
+.vscode/*
 
 # Object files
 *.o
