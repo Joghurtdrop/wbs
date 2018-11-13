@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "main.h"
+#include "astar.h"
 
 void printMatrix();
 void initMatrix();
@@ -17,15 +18,12 @@ int main(int argc, char const *argv[])
     }
     else
     {
-        startPunkt[0][0] = *argv[1]-'0';
-        startPunkt[0][1] = *argv[2]-'0';
-        zielPunkt[0][0] = *argv[3]-'0';
-        zielPunkt[0][1] = *argv[4]-'0';
-
-        printf("StartX: %d\n", startPunkt[0][0]);
-        printf("StartY: %d\n", startPunkt[0][1]);
-        printf("ZielX: %d\n", zielPunkt[0][0]);
-        printf("ZielY: %d\n", zielPunkt[0][1]);
+        startNode = (node*) malloc(sizeof(node));
+        endNode  = (node*) malloc(sizeof(node));
+        startNode->x = *argv[1]-'0';
+        startNode->y = *argv[2]-'0';
+        endNode->x = *argv[3]-'0';
+        endNode->y = *argv[4]-'0';
     }
 
     
@@ -69,5 +67,8 @@ void printMatrix()
         }
         printf("|\n");
     }
+
+    printf("StartPunkt: %d, %d\n", startNode->x, startNode->y);
+    printf("ZielPunkt: %d, %d\n", endNode->x, endNode->y);
     
 }
