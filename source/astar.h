@@ -13,6 +13,7 @@ typedef struct node {
     struct node *next; /* needed for singly- or doubly-linked lists */
 } node;
 
+
 void calculate();
 
 #endif
