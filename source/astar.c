@@ -7,7 +7,6 @@ node *closedList = NULL;
 node *pathList = NULL;
 
 int weight[6] = {4,7,3,6,3,12};
-int wasWater = 0;
 
 //https://troydhanson.github.io/uthash/
 
@@ -60,6 +59,16 @@ node* createNeighbourList(node *currentNode)
 {
     node* neighbourList = NULL;
     int localWeight = 0;
+    node* dowsingRod = currentNode;
+    int wasWater = 0;
+
+    while (dowsingRod != NULL) {
+        if (weight[matrix[dowsingRod->x][dowsingRod->y]] == weight[1]) {
+            wasWater = 1;
+            break;
+        }
+        dowsingRod = dowsingRod->pathParent;
+    }
 
     printf("War Wasser? %d\n", wasWater);
 
@@ -73,9 +82,6 @@ node* createNeighbourList(node *currentNode)
     if (localWeight == weight[1] && wasWater)
     {
         free(testN);
-    } else if (localWeight == weight[1] && !wasWater) { 
-        wasWater = 1;
-        LL_APPEND(neighbourList, testN);
     } else {
         LL_APPEND(neighbourList, testN);
     }
@@ -90,9 +96,6 @@ node* createNeighbourList(node *currentNode)
     if (localWeight == weight[1] && wasWater)
     {
         free(testS);
-    } else if (localWeight == weight[1] && !wasWater) { 
-        wasWater = 1;
-        LL_APPEND(neighbourList, testS);
     } else {
         LL_APPEND(neighbourList, testS);
     }
@@ -107,9 +110,6 @@ node* createNeighbourList(node *currentNode)
     if (localWeight == weight[1] && wasWater)
     {
         free(testO);
-    } else if (localWeight == weight[1] && !wasWater) { 
-        wasWater = 1;
-        LL_APPEND(neighbourList, testO);
     } else {
         LL_APPEND(neighbourList, testO);
     }
@@ -124,9 +124,6 @@ node* createNeighbourList(node *currentNode)
     if (localWeight == weight[1] && wasWater)
     {
         free(testW);
-    } else if (localWeight == weight[1] && !wasWater) { 
-        wasWater = 1;
-        LL_APPEND(neighbourList, testW);
     } else {
         LL_APPEND(neighbourList, testW);
     }
@@ -178,7 +175,6 @@ int recursion()
     LL_FOREACH_SAFE(neighbourList, neighbour, tmp)
     {
         node *out = NULL;
-        //printf("x: %d, y: %d, real: %d, aprox: %d\n", neighbour->x, neighbour->y, neighbour->realDist, neighbour->aproxDist);
         LL_SEARCH(openList, out, neighbour, compareNode);
         if (out == NULL){
             LL_SEARCH(closedList, out, neighbour, compareNode);
@@ -192,7 +188,7 @@ int recursion()
             //free(out);
             LL_APPEND(openList, copyNode(neighbour));
         }
-        //free(neighbour);
+
     }
 
     return recursion();
