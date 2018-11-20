@@ -30,6 +30,7 @@ int main(int argc, char const *argv[])
     
 
     initMatrix();
+    calculate();
     printMatrix();
 
     return 0;
