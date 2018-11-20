@@ -70,8 +70,6 @@ node* createNeighbourList(node *currentNode)
         dowsingRod = dowsingRod->pathParent;
     }
 
-    printf("War Wasser? %d\n", wasWater);
-
     node *testN = malloc(sizeof(node));   
     testN->x = currentNode->x;
     testN->y = (currentNode->y == 0)?0:(currentNode->y)-1;
@@ -161,17 +159,9 @@ int recursion()
 
     node *neighbourList = createNeighbourList(bestGuess);
 
-    node* aufgerufen;
-
-        printf("Nachbarn:\n");
-    LL_FOREACH(neighbourList, aufgerufen)
-    {   
-        printf("x: %d, y: %d, real: %d, aprox: %d\n", aufgerufen->x, aufgerufen->y, aufgerufen->realDist, aufgerufen->aproxDist);
-    }
-
     node *neighbour;
     node *tmp;
-    //printf("forEach:\n");
+
     LL_FOREACH_SAFE(neighbourList, neighbour, tmp)
     {
         node *out = NULL;
@@ -191,7 +181,13 @@ int recursion()
 
     }
 
-    return recursion();
+    // while ((tmp = neighbourList) != NULL)
+    // {
+    //     neighbourList = neighbourList->next;
+    //     free(tmp);
+    // }
+        
+    // return recursion();
 }
 
 
