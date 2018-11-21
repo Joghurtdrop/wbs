@@ -29,7 +29,11 @@ void calculate()
 
     LL_APPEND(openList, startNode);
     LL_APPEND(pathList, startNode);
-    recursion();
+    
+    int i = -1;
+    while(i == -1){
+        i = recursion();
+    }
 }
 
 int isOpenListEmpty()
@@ -77,7 +81,8 @@ node* createNeighbourList(node *currentNode)
     testN->realDist = currentNode->realDist + localWeight;
     testN->aproxDist = testN->realDist + 1;
     testN->pathParent = currentNode;
-    if (localWeight == weight[1] && wasWater)
+    if ((localWeight == weight[1]) && 
+        (wasWater || weight[matrix[endNode->x][endNode->y]] == weight[1]) && (!areNodesEqual(testN, endNode)))
     {
         free(testN);
     } else {
@@ -91,7 +96,8 @@ node* createNeighbourList(node *currentNode)
     testS->realDist = currentNode->realDist + localWeight;
     testS->aproxDist = testS->realDist + 1;
     testS->pathParent = currentNode;
-    if (localWeight == weight[1] && wasWater)
+    if ((localWeight == weight[1]) && 
+        (wasWater || weight[matrix[endNode->x][endNode->y]] == weight[1]) && (!areNodesEqual(testS, endNode)))
     {
         free(testS);
     } else {
@@ -105,7 +111,8 @@ node* createNeighbourList(node *currentNode)
     testO->realDist = currentNode->realDist + localWeight;
     testO->aproxDist = testO->realDist + 1;
     testO->pathParent = currentNode;
-    if (localWeight == weight[1] && wasWater)
+    if ((localWeight == weight[1]) && 
+        (wasWater || weight[matrix[endNode->x][endNode->y]] == weight[1]) && (!areNodesEqual(testO, endNode)))
     {
         free(testO);
     } else {
@@ -119,7 +126,8 @@ node* createNeighbourList(node *currentNode)
     testW->realDist = currentNode->realDist + localWeight;
     testW->aproxDist = testW->realDist + 1;
     testW->pathParent = currentNode;
-    if (localWeight == weight[1] && wasWater)
+    if ((localWeight == weight[1]) && 
+        (wasWater || weight[matrix[endNode->x][endNode->y]] == weight[1]) && (!areNodesEqual(testW, endNode)))
     {
         free(testW);
     } else {
@@ -148,6 +156,8 @@ int recursion()
         }
     }
 
+    printf("bestGuess: %d,%d \t\tW:%d\n",(bestGuess->x)+1,(bestGuess->y)+1,bestGuess->aproxDist);
+
     LL_DELETE(openList, bestGuess);
     LL_APPEND(closedList, bestGuess);
 
@@ -161,6 +171,12 @@ int recursion()
 
     node *neighbour;
     node *tmp;
+
+        printf("Nachbarn:\n");
+    LL_FOREACH(neighbourList, tmp)
+    {
+    printf("Nachbar: %d,%d \t\tW:%d\n",(tmp->x)+1,(tmp->y)+1,tmp->aproxDist);
+    }
 
     LL_FOREACH_SAFE(neighbourList, neighbour, tmp)
     {
@@ -181,13 +197,19 @@ int recursion()
 
     }
 
+            printf("Openlist:\n");
+    LL_FOREACH(openList, tmp)
+    {
+    printf("Eintrag: %d,%d \t\tW:%d\n",(tmp->x)+1,(tmp->y)+1,tmp->aproxDist);
+    }
+
     // while ((tmp = neighbourList) != NULL)
     // {
     //     neighbourList = neighbourList->next;
     //     free(tmp);
     // }
         
-    return recursion();
+    return -1;
 }
 
 

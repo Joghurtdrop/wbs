@@ -33,7 +33,7 @@ int main(int argc, char const *argv[])
         // realEnd->y = *argv[4]-'0';
         startNode->x = 0;
         startNode->y = 0;
-        endNode->x = 14;
+        endNode->x = 13;
         endNode->y = 14;
         realEnd->x = endNode->x;
         realEnd->y = endNode->y;
