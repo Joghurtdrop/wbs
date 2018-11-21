@@ -14,6 +14,6 @@ typedef struct node {
 } node;
 
 
-void calculate();
+void findPath();
 
 #endif

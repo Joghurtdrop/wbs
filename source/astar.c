@@ -9,13 +9,10 @@
 
 node *openList = NULL;
 node *closedList = NULL;
-node *pathList = NULL;
-
-int weight[6] = {4,7,3,6,3,12};
 
 //https://troydhanson.github.io/uthash/
 
-int recursion();
+int processAlgorithmStep();
 node* copyNode(node* origin);
 
 int heuristic(node *position, node *destination)
@@ -26,18 +23,17 @@ int heuristic(node *position, node *destination)
     return x + y;
 }
 
-void calculate()
+void findPath()
 {
     startNode->realDist = 0;
     startNode->aproxDist = startNode->realDist + heuristic(startNode, endNode);
     startNode->pathParent = NULL;
 
     LL_APPEND(openList, startNode);
-    LL_APPEND(pathList, startNode);
     
     int i = -1;
     while(i == -1){
-        i = recursion();
+        i = processAlgorithmStep();
     }
 }
 
@@ -52,6 +48,11 @@ int isOpenListEmpty()
 
 int areNodesEqual(node *node1, node *node2)
 {
+    if (node1 == NULL || node2 == NULL)
+    {
+        return 0;
+    }
+
     if ((node1->x == node2->x) && (node1->y == node2->y))
     {
         return 1;
@@ -131,7 +132,7 @@ node* createNeighbourList(node *currentNode)
 }
 
 
-int recursion()
+int processAlgorithmStep()
 {
     if (isOpenListEmpty())
     {

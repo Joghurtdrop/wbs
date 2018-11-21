@@ -7,6 +7,7 @@ void printMatrix();
 void initMatrix();
 void printUsage();
 void addPathToMatrix();
+void initWeights();
 
 
 node* realEnd;
@@ -43,7 +44,8 @@ int main(int argc, char const *argv[])
     
 
     initMatrix();
-    calculate();
+    initWeights();
+    findPath();
     addPathToMatrix();
     printMatrix();
 
@@ -53,6 +55,16 @@ int main(int argc, char const *argv[])
 void printUsage()
 {
     printf("Usage: a.exe <startx> <starty> <goalx> <goaly>\n");
+}
+
+void initWeights()
+{
+    weight[0] = 4;
+    weight[1] = 7;
+    weight[2] = 3;
+    weight[3] = 6;
+    weight[4] = 3;
+    weight[5] = 12;
 }
 
 void initMatrix()
