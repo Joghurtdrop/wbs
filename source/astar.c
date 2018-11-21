@@ -12,8 +12,10 @@ node *closedList = NULL;
 
 //https://troydhanson.github.io/uthash/
 
-int processAlgorithmStep();
+node*  processAlgorithmStep();
 node* copyNode(node* origin);
+int areNodesEqual(node *node1, node *node2);
+int isOpenListEmpty();
 
 int heuristic(node *position, node *destination)
 {
@@ -31,9 +33,21 @@ void findPath()
 
     LL_APPEND(openList, startNode);
     
-    int i = -1;
-    while(i == -1){
-        i = processAlgorithmStep();
+    node* endPoint;
+    while(1){
+
+        if (areNodesEqual(endPoint, endNode))
+        {
+            endNode = endPoint;
+            break;
+        }
+
+        if (isOpenListEmpty())
+        {
+            exit(1);
+        }
+
+        endPoint = processAlgorithmStep();
     }
 }
 
@@ -132,13 +146,8 @@ node* createNeighbourList(node *currentNode)
 }
 
 
-int processAlgorithmStep()
+node* processAlgorithmStep()
 {
-    if (isOpenListEmpty())
-    {
-        return 1;
-    }
-
     node *bestGuess = openList;
 
     node *elt = NULL;
@@ -150,27 +159,13 @@ int processAlgorithmStep()
         }
     }
 
-    //printf("bestGuess: %d,%d \t\tW:%d\n",(bestGuess->x)+1,(bestGuess->y)+1,bestGuess->aproxDist);
-
     LL_DELETE(openList, bestGuess);
     LL_APPEND(closedList, bestGuess);
-
-    if (areNodesEqual(bestGuess, endNode))
-    {
-        endNode = bestGuess;
-        return 0;
-    }    
 
     node *neighbourList = createNeighbourList(bestGuess);
 
     node *neighbour;
     node *tmp;
-
-        printf("Nachbarn:\n");
-    LL_FOREACH(neighbourList, tmp)
-    {
-    printf("Nachbar: %d,%d \t\tW:%d\n",(tmp->x)+1,(tmp->y)+1,tmp->aproxDist);
-    }
 
     LL_FOREACH_SAFE(neighbourList, neighbour, tmp)
     {
@@ -191,19 +186,13 @@ int processAlgorithmStep()
 
     }
 
-            printf("Openlist:\n");
-    LL_FOREACH(openList, tmp)
-    {
-    printf("Eintrag: %d,%d \t\tW:%d\n",(tmp->x)+1,(tmp->y)+1,tmp->aproxDist);
-    }
-
     // while ((tmp = neighbourList) != NULL)
     // {
     //     neighbourList = neighbourList->next;
     //     free(tmp);
     // }
-        
-    return -1;
+    
+    return bestGuess;
 }
 
 
