@@ -1,0 +1,10 @@
+Fragen:
+    - Test -> von Hand ausrechnen oder wie?
+    - Fachliche Bearbeitung: Konzept und korrekte Verwendung von Kernfunktionen
+
+
+- Entscheidung LinkedList und Struct -> vertraut mit OOP. Deshalb schnell in OOP Denkweise übergegangen
+- Rekursiever Ansatz, dann aber verworfen, weil kein Mehrwert erkennbar war
+- PathParent für Weg und auf Wasser testen
+- Probleme mit Wasser: Ziel ist Wasser, mehr als ein Wasserfeld auf dem Pfad
+- Kurze Beschreibung wie das Programm zu verwenden ist
