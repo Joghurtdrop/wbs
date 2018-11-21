@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include "main.h"
 
+#define NORTH   1 
+#define EAST    2
+#define SOUTH   3
+#define WEST    4
+
 node *openList = NULL;
 node *closedList = NULL;
 node *pathList = NULL;
@@ -59,10 +64,53 @@ int compareNode(node *node1, node *node2)
     return !areNodesEqual(node1, node2);
 }
 
+node* createNeighbour(node *neighbourList, node *currentNode, int wasWater, int orientation)
+{
+    node *neighbour = malloc(sizeof(node));  
+
+    switch (orientation)
+    {
+        case 1: // NORTH
+            neighbour->x = currentNode->x;
+            neighbour->y = (currentNode->y == 0)?0:(currentNode->y)-1;
+            break;
+        case 2: // EAST
+            neighbour->x = (currentNode->x == 14)?14:(currentNode->x)+1;
+            neighbour->y = currentNode->y;
+            break;
+        case 3: // SOUTH
+            neighbour->x = currentNode->x;
+            neighbour->y = (currentNode->y == 14)?14:(currentNode->y)+1;
+            break;
+        case 4: // WEST
+            neighbour->x = (currentNode->x == 0)?0:(currentNode->x)-1;
+            neighbour->y = currentNode->y;
+            break;
+        default:
+            break;
+    }    
+    
+    int localWeight = weight[matrix[neighbour->x][neighbour->y]];
+    neighbour->realDist = currentNode->realDist + localWeight;
+    neighbour->aproxDist = neighbour->realDist + 1;
+    neighbour->pathParent = currentNode;
+    
+    int isNodeWater = (localWeight == weight[1]);
+    int isEndNodeWater = (weight[matrix[endNode->x][endNode->y]] == weight[1]);
+
+    if (isNodeWater && (wasWater || isEndNodeWater) && (!areNodesEqual(neighbour, endNode)))
+    {
+        free(neighbour);
+    } else {
+        LL_APPEND(neighbourList, neighbour);
+    }
+
+    return neighbourList;
+}
+
 node* createNeighbourList(node *currentNode)
 {
     node* neighbourList = NULL;
-    int localWeight = 0;
     node* dowsingRod = currentNode;
     int wasWater = 0;
 
@@ -74,65 +122,10 @@ node* createNeighbourList(node *currentNode)
         dowsingRod = dowsingRod->pathParent;
     }
 
-    node *testN = malloc(sizeof(node));   
-    testN->x = currentNode->x;
-    testN->y = (currentNode->y == 0)?0:(currentNode->y)-1;
-    localWeight = weight[matrix[testN->x][testN->y]];
-    testN->realDist = currentNode->realDist + localWeight;
-    testN->aproxDist = testN->realDist + 1;
-    testN->pathParent = currentNode;
-    if ((localWeight == weight[1]) && 
-        (wasWater || weight[matrix[endNode->x][endNode->y]] == weight[1]) && (!areNodesEqual(testN, endNode)))
-    {
-        free(testN);
-    } else {
-        LL_APPEND(neighbourList, testN);
-    }
-    
-    node *testS = malloc(sizeof(node));
-    testS->x = currentNode->x;
-    testS->y = (currentNode->y == 14)?14:(currentNode->y)+1;
-    localWeight = weight[matrix[testS->x][testS->y]];
-    testS->realDist = currentNode->realDist + localWeight;
-    testS->aproxDist = testS->realDist + 1;
-    testS->pathParent = currentNode;
-    if ((localWeight == weight[1]) && 
-        (wasWater || weight[matrix[endNode->x][endNode->y]] == weight[1]) && (!areNodesEqual(testS, endNode)))
-    {
-        free(testS);
-    } else {
-        LL_APPEND(neighbourList, testS);
-    }
-
-    node *testO = malloc(sizeof(node));
-    testO->y = currentNode->y;
-    testO->x = (currentNode->x == 14)?14:(currentNode->x)+1;
-    localWeight = weight[matrix[testO->x][testO->y]];
-    testO->realDist = currentNode->realDist + localWeight;
-    testO->aproxDist = testO->realDist + 1;
-    testO->pathParent = currentNode;
-    if ((localWeight == weight[1]) && 
-        (wasWater || weight[matrix[endNode->x][endNode->y]] == weight[1]) && (!areNodesEqual(testO, endNode)))
-    {
-        free(testO);
-    } else {
-        LL_APPEND(neighbourList, testO);
-    }
-
-    node *testW = malloc(sizeof(node));
-    testW->y = currentNode->y;
-    testW->x = (currentNode->x == 0)?0:(currentNode->x)-1;
-    localWeight = weight[matrix[testW->x][testW->y]];
-    testW->realDist = currentNode->realDist + localWeight;
-    testW->aproxDist = testW->realDist + 1;
-    testW->pathParent = currentNode;
-    if ((localWeight == weight[1]) && 
-        (wasWater || weight[matrix[endNode->x][endNode->y]] == weight[1]) && (!areNodesEqual(testW, endNode)))
-    {
-        free(testW);
-    } else {
-        LL_APPEND(neighbourList, testW);
-    }
+    neighbourList = createNeighbour(neighbourList, currentNode, wasWater, NORTH);
+    neighbourList = createNeighbour(neighbourList, currentNode, wasWater, EAST);
+    neighbourList = createNeighbour(neighbourList, currentNode, wasWater, SOUTH);
+    neighbourList = createNeighbour(neighbourList, currentNode, wasWater, WEST);    
 
     return neighbourList;
 }
@@ -156,7 +149,7 @@ int recursion()
         }
     }
 
-    printf("bestGuess: %d,%d \t\tW:%d\n",(bestGuess->x)+1,(bestGuess->y)+1,bestGuess->aproxDist);
+    //printf("bestGuess: %d,%d \t\tW:%d\n",(bestGuess->x)+1,(bestGuess->y)+1,bestGuess->aproxDist);
 
     LL_DELETE(openList, bestGuess);
     LL_APPEND(closedList, bestGuess);
