@@ -9,6 +9,7 @@
 
 node *openList = NULL;
 node *closedList = NULL;
+int isEndNodeWater;
 
 //https://troydhanson.github.io/uthash/
 
@@ -27,6 +28,8 @@ int heuristic(node *position, node *destination)
 
 void findPath()
 {
+    isEndNodeWater = (weight[matrix[endNode->x][endNode->y]] == weight[1]);
+
     startNode->realDist = 0;
     startNode->aproxDist = startNode->realDist + heuristic(startNode, endNode);
     startNode->pathParent = NULL;
@@ -111,7 +114,6 @@ node* createNeighbour(node *neighbourList, node *currentNode, int wasWater, int 
     neighbour->pathParent = currentNode;
     
     int isNodeWater = (localWeight == weight[1]);
-    int isEndNodeWater = (weight[matrix[endNode->x][endNode->y]] == weight[1]);
 
     if (isNodeWater && (wasWater || isEndNodeWater) && (!areNodesEqual(neighbour, endNode)))
     {
@@ -129,6 +131,7 @@ node* createNeighbourList(node *currentNode)
     node* dowsingRod = currentNode;
     int wasWater = 0;
 
+    // analyze if already passed water in current path
     while (dowsingRod != NULL) {
         if (weight[matrix[dowsingRod->x][dowsingRod->y]] == weight[1]) {
             wasWater = 1;
@@ -170,14 +173,19 @@ node* processAlgorithmStep()
     LL_FOREACH_SAFE(neighbourList, neighbour, tmp)
     {
         node *out = NULL;
+        // search neighbour nodes in open list and closed list
         LL_SEARCH(openList, out, neighbour, compareNode);
         if (out == NULL){
             LL_SEARCH(closedList, out, neighbour, compareNode);
         }
         
         if (out == NULL){
+            // neighbour node is neither in open nor in closed list, 
+            // then it can be added to open list
            LL_APPEND(openList, copyNode(neighbour));
         } else if (neighbour->realDist < out->realDist) {
+            // if the new neighbour node has shorter distance then the found node,
+            // the new node should end up in the open list and the old node must be removed
             LL_DELETE(openList, out);
             LL_DELETE(closedList, out);
             //free(out);
@@ -191,7 +199,7 @@ node* processAlgorithmStep()
     //     neighbourList = neighbourList->next;
     //     free(tmp);
     // }
-    
+
     return bestGuess;
 }
 
