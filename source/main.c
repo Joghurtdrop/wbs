@@ -8,30 +8,31 @@ void initMatrix();
 void printUsage();
 void addPathToMatrix();
 void initWeights();
-void initPath();
+void initVerge();
 
 node* realEnd;
+FILE *fp;
 
 int main(int argc, char const *argv[])
 {
+    fp = fopen("S_003_Daten.csv","r");
+
     realEnd = malloc(sizeof(node));
     startNode = malloc(sizeof(node));
     endNode  = malloc(sizeof(node));
 
-    startNode->x=0;
-    startNode->y=0;
-    endNode->x=14;
-    endNode->y=14;
-    realEnd->x=14;
-    realEnd->y=14;
+    printf("Im folgenden sind alle Werte 0-Indiziert.\n");
 
-    initPath();
+    initVerge();
     initMatrix();
     initWeights();
+ 
     findPath();
     addPathToMatrix();
     printMatrix();
 
+    printf("Press ENTER key to Continue\n");  
+    getchar();  
     return 0;
 }
 
@@ -48,7 +49,6 @@ int getIntegerInput()
             printf("Bitte Natürlichezahl eingeben: ");
         } else break;
     }
-    printf("\n");
     
     if (n < 0 || n > 14)
     {
@@ -58,7 +58,7 @@ int getIntegerInput()
     return n;
 }
 
-void initPath()
+void initVerge()
 {
     printf("X-Wert Startpunkt: ");
     startNode->x = getIntegerInput();
@@ -82,20 +82,21 @@ void printUsage()
 }
 
 void initWeights()
-{
-    weight[0] = 4;
-    weight[1] = 7;
-    weight[2] = 3;
-    weight[3] = 6;
-    weight[4] = 3;
-    weight[5] = 12;
+{   
+    int i=0, j=0;
+    char myString [100];
+
+    fscanf(fp,"%s");
+    fscanf(fp,"%s");
+
+    while (fscanf(fp,"%d;%*[^;];%d;%*[^\n]", &i, &j) == 2)
+    {
+        weight[i] = j;
+    }
 }
 
 void initMatrix()
 {
-    FILE *fp;
-    fp = fopen("..\\S003\\S_003_Daten.csv","r");    
-
 
     for(size_t i = 0; i < 15; i++)
     {
@@ -111,18 +112,19 @@ void printMatrix()
     
     for(size_t i = 0; i < 15; i++)
     {
-        //printf("-------------------------------\n");
+        printf("\n");
         for(size_t j = 0; j < 15; j++)
         {
             printf("|%d", matrix[j][i]);
         }
         printf("|\n");
     }
-
+    printf("\n");
     printf("StartPunkt: %d, %d\n", startNode->x, startNode->y);
     printf("ZielPunkt: %d, %d\n", realEnd->x, realEnd->y);
-    printf("Länge der Strecke: %d", endNode->realDist);
+    printf("Länge der Strecke: %d\n", endNode->realDist);
     
+
 }
 
 void addPathToMatrix(){
