@@ -8,41 +8,24 @@ void initMatrix();
 void printUsage();
 void addPathToMatrix();
 void initWeights();
-
+void initPath();
 
 node* realEnd;
 
 int main(int argc, char const *argv[])
 {
+    realEnd = malloc(sizeof(node));
+    startNode = malloc(sizeof(node));
+    endNode  = malloc(sizeof(node));
 
+    startNode->x=0;
+    startNode->y=0;
+    endNode->x=14;
+    endNode->y=14;
+    realEnd->x=14;
+    realEnd->y=14;
 
-    if (!(argc==1)) 
-    {
-        printUsage();
-        return 1;
-    }
-    else
-    {
-        realEnd = malloc(sizeof(node));
-        startNode = (node*) malloc(sizeof(node));
-        endNode  = (node*) malloc(sizeof(node));
-        // startNode->x = *argv[1]-'0';
-        // startNode->y = *argv[2]-'0';
-        // endNode->x = *argv[3]-'0';
-        // endNode->y = *argv[4]-'0';
-        // realEnd->x = *argv[3]-'0';
-        // realEnd->y = *argv[4]-'0';
-        startNode->x = 0;
-        startNode->y = 0;
-        endNode->x = 14;
-        endNode->y = 14;
-        realEnd->x = endNode->x;
-        realEnd->y = endNode->y;
-    }
-
-    
-    
-
+    initPath();
     initMatrix();
     initWeights();
     findPath();
@@ -52,9 +35,50 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
+int getIntegerInput()
+{
+    char *p, s[100];
+    int n;
+
+    while(fgets(s, sizeof(s), stdin))
+    {
+        n = strtol(s, &p, 10);
+        if (p == s || *p != '\n')
+        {
+            printf("Bitte Natürlichezahl eingeben: ");
+        } else break;
+    }
+    printf("\n");
+    
+    if (n < 0 || n > 14)
+    {
+        exit(1);
+    }
+
+    return n;
+}
+
+void initPath()
+{
+    printf("X-Wert Startpunkt: ");
+    startNode->x = getIntegerInput();
+
+    printf("Y-Wert Startpunkt: ");
+    startNode->y = getIntegerInput();
+
+    printf("X-Wert Zielpunkt: ");
+    endNode->x = getIntegerInput();
+    realEnd->x = endNode->x;
+    
+    printf("Y-Wert Zielpuntk: ");
+    endNode->y = getIntegerInput();
+    realEnd->y = endNode->y;
+   
+}
+
 void printUsage()
 {
-    printf("Usage: a.exe <startx> <starty> <goalx> <goaly>\n");
+    printf("Usage: a.exe\n");
 }
 
 void initWeights()
@@ -97,6 +121,7 @@ void printMatrix()
 
     printf("StartPunkt: %d, %d\n", startNode->x, startNode->y);
     printf("ZielPunkt: %d, %d\n", realEnd->x, realEnd->y);
+    printf("Länge der Strecke: %d", endNode->realDist);
     
 }
 
