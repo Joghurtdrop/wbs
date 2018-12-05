@@ -174,14 +174,7 @@ node* processAlgorithmStep()
     {
         node *out = NULL;
         // search neighbour nodes in open list and closed list
-        do 
-        {                                                                                           \
-            for ((out) = (openList); out; (out) = (out)->next)
-            {                                                               \
-                if ((compareNode(out,neighbour))==0) break;                                                            \
-            }                                                                                          \
-        } while (0);
-        //LL_SEARCH(openList, out, neighbour, compareNode);
+        LL_SEARCH(openList, out, neighbour, compareNode);
         if (out == NULL){
             LL_SEARCH(closedList, out, neighbour, compareNode);
         }
@@ -198,14 +191,7 @@ node* processAlgorithmStep()
             //free(out);
             LL_APPEND(openList, copyNode(neighbour));
         }
-
     }
-
-    // while ((tmp = neighbourList) != NULL)
-    // {
-    //     neighbourList = neighbourList->next;
-    //     free(tmp);
-    // }
 
     return bestGuess;
 }

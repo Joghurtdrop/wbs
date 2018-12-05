@@ -28,6 +28,7 @@ int main(int argc, char const *argv[])
     initWeights();
  
     findPath();
+    realEnd = endNode;
     addPathToMatrix();
     printMatrix();
 
@@ -68,12 +69,9 @@ void initVerge()
 
     printf("X-Wert Zielpunkt: ");
     endNode->x = getIntegerInput();
-    realEnd->x = endNode->x;
     
     printf("Y-Wert Zielpuntk: ");
-    endNode->y = getIntegerInput();
-    realEnd->y = endNode->y;
-   
+    endNode->y = getIntegerInput();   
 }
 
 void printUsage()
@@ -110,9 +108,9 @@ void initMatrix()
 void printMatrix()
 {
     
+    printf("\n");
     for(size_t i = 0; i < 15; i++)
     {
-        printf("\n");
         for(size_t j = 0; j < 15; j++)
         {
             printf("|%d", matrix[j][i]);
@@ -122,7 +120,7 @@ void printMatrix()
     printf("\n");
     printf("StartPunkt: %d, %d\n", startNode->x, startNode->y);
     printf("ZielPunkt: %d, %d\n", realEnd->x, realEnd->y);
-    printf("Länge der Strecke: %d\n", endNode->realDist);
+    printf("Kosten der Strecke: %d\n", realEnd->realDist);
     
 
 }
