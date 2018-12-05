@@ -14,7 +14,6 @@ int isEndNodeWater;
 //https://troydhanson.github.io/uthash/
 
 node*  processAlgorithmStep();
-node* copyNode(node* origin);
 int areNodesEqual(node *node1, node *node2);
 int isOpenListEmpty();
 
@@ -182,33 +181,16 @@ node* processAlgorithmStep()
         if (out == NULL){
             // neighbour node is neither in open nor in closed list, 
             // then it can be added to open list
-           LL_APPEND(openList, copyNode(neighbour));
+           LL_APPEND(openList, neighbour);
         } else if (neighbour->realDist < out->realDist) {
             // if the new neighbour node has shorter distance then the found node,
             // the new node should end up in the open list and the old node must be removed
             LL_DELETE(openList, out);
             LL_DELETE(closedList, out);
-            //free(out);
-            LL_APPEND(openList, copyNode(neighbour));
+            free(out);
+            LL_APPEND(openList, neighbour);
         }
     }
 
     return bestGuess;
-}
-
-
-
-
-node* copyNode(node* origin)
-{
-    node* copy = malloc(sizeof(node));
-    copy->x = origin->x;
-    copy->y = origin->y;
-    copy->realDist = origin->realDist;
-    copy->aproxDist = origin->aproxDist;
-    copy->pathParent = origin->pathParent;
-    copy->prev = NULL;
-    copy->next = NULL;
-
-    return copy;
 }
