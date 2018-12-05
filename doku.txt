@@ -60,3 +60,10 @@ einem Referenz-Array ausgelesen.
 Durch die Referenz zum vorangegangenen Feld, lässt sich der beschrittene Weg
 zurückverfolgen. Wasserfelder werden als Nachbarn ignoriert, wenn das Ziel im Wasser
 liegt oder auf dem beschrittenen Weg bereits Wasser überquert wurde.
+
+Ursprünglich haben wir den sich wiederholenden Teil des Algorithmus rekursiv
+entworfen. Später fiel uns jedoch auf, dass eine iterative Verarbeitung besser
+geeignet ist, da das Problem nicht mit jedem Schritt kleiner wird.
+
+Unser Programm findet unter berücksichtigung aller Bedingungen den Kosten effizientesten
+Weg. Wir bewerten das Ergebnis positiv.
