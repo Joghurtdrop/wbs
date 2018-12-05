@@ -174,7 +174,14 @@ node* processAlgorithmStep()
     {
         node *out = NULL;
         // search neighbour nodes in open list and closed list
-        LL_SEARCH(openList, out, neighbour, compareNode);
+        do 
+        {                                                                                           \
+            for ((out) = (openList); out; (out) = (out)->next)
+            {                                                               \
+                if ((compareNode(out,neighbour))==0) break;                                                            \
+            }                                                                                          \
+        } while (0);
+        //LL_SEARCH(openList, out, neighbour, compareNode);
         if (out == NULL){
             LL_SEARCH(closedList, out, neighbour, compareNode);
         }
@@ -214,6 +221,8 @@ node* copyNode(node* origin)
     copy->realDist = origin->realDist;
     copy->aproxDist = origin->aproxDist;
     copy->pathParent = origin->pathParent;
+    copy->prev = NULL;
+    copy->next = NULL;
 
     return copy;
 }
