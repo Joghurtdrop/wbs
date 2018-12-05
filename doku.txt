@@ -32,16 +32,16 @@ gegen eine Implementierung auf der Matrix und für Structs verkettet in LinkedLi
 entschieden. Das Struct (astar.h -> node) repräsentiert ein Feld, bzw. einen Knoten.
 Es ist eindeutig definiert durch die X- und Y-Koordinaten und enthält darüber hinaus
 die Kosten um den Knoten zu erreichen, die geschätzen Kosten zum Ziel und eine
-Referenz auf vorangegangene Feld. Um die Structs miteinander in einer Liste
+Referenz auf das vorangegangene Feld. Um die Structs miteinander in einer Liste
 verketten zu können nutzen wir die Makroimplementierung der
 Utlist.h (https://troydhanson.github.io/uthash). Vorraussetzung zur Nutzung von
 Utlist sind die Pointer "prev" und "next".
 
 Das Programm und die CSV müssen im selben Verzeichnis liegen. Der Name der CSV ist
 fix auf "S_003_Daten.csv" festgelegt.
-Zu Beginn des Programms wird die CSV eingelesen, sowie Start und Ziel vom Benutzer
-eingegeben. Die CSV muss dabei der gegebenen Form entsprechen: 15x15 Matrix und 
-sechs Gewichte.
+Zu Beginn des Programms wird die CSV eingelesen, sowie Start- und Zielkoordinaten
+vom Benutzer eingegeben. Die CSV muss dabei der gegebenen Form entsprechen:
+15x15 Matrix und sechs Gewichte.
 
 Die Schätzfunktion (Heuristik) ist definiert als der Abstand der Felder in der
 Manhattan-Metrik und erfüllt somit die Kriterien für eine monotone Heuristik.
@@ -66,4 +66,6 @@ entworfen. Später fiel uns jedoch auf, dass eine iterative Verarbeitung besser
 geeignet ist, da das Problem nicht mit jedem Schritt kleiner wird.
 
 Unser Programm findet unter berücksichtigung aller Bedingungen den Kosten effizientesten
-Weg. Wir bewerten das Ergebnis positiv.
+Weg. Der berechnete Weg wird in das Spielfeld eingezeichnet. Felder mit der Ziffer 9
+repräsentieren den Weg.
+Wir bewerten das Ergebnis positiv.
