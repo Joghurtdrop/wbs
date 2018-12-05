@@ -4,7 +4,59 @@ Fragen:
 
 
 - Entscheidung LinkedList und Struct -> vertraut mit OOP. Deshalb schnell in OOP Denkweise übergegangen
-- Rekursiever Ansatz, dann aber verworfen, weil kein Mehrwert erkennbar war
 - PathParent für Weg und auf Wasser testen
 - Probleme mit Wasser: Ziel ist Wasser, mehr als ein Wasserfeld auf dem Pfad
 - Kurze Beschreibung wie das Programm zu verwenden ist
+- Weshalb passt die gewählte Lösung auf die Problemstellung
+- Begrenzung 15x15 und 6 Gewichtungen
+- A* Graphen
+
+-Ergebnissbewertung
+- Rekursiever Ansatz, dann aber verworfen, weil kein Mehrwert erkennbar war
+
+
+
+WBS - Programmentwurf - Suchverfahren A*
+
+Bearbeiter: Denis Diewold, David Sonntag
+
+Als Programmiersprache kommt C zum Einsatz. Das Spielfeld und die Kosten der
+unterschiedlichen Felder liegen im CSV-Format vor.
+Das Spielfeld wird als Matrix dargestellt.
+Durch Erweiterung der Matrix um weitere Dimensionen, wäre es möglich den
+A*-Algorithmus direkt auf der Matrix auszuführen und dort auch Ergebnisse zu sichern.
+Aufgrund von bereits gesammelter Erfahrung mit LinkedLists in C und jahrelanger
+Entwicklungserfahrung mit objektorientierten Sprachen wie Java und C# sind wir
+in der Komzeption schnell in OOP Denkweisen übergegangen. Deshalb haben wir uns
+gegen eine Implementierung auf der Matrix und für Structs verkettet in LinkedLists
+entschieden. Das Struct (astar.h -> node) repräsentiert ein Feld, bzw. einen Knoten.
+Es ist eindeutig definiert durch die X- und Y-Koordinaten und enthält darüber hinaus
+die Kosten um den Knoten zu erreichen, die geschätzen Kosten zum Ziel und eine
+Referenz auf vorangegangene Feld. Um die Structs miteinander in einer Liste
+verketten zu können nutzen wir die Makroimplementierung der
+Utlist.h (https://troydhanson.github.io/uthash). Vorraussetzung zur Nutzung von
+Utlist sind die Pointer "prev" und "next".
+
+Das Programm und die CSV müssen im selben Verzeichnis liegen. Der Name der CSV ist
+fix auf "S_003_Daten.csv" festgelegt.
+Zu Beginn des Programms wird die CSV eingelesen, sowie Start und Ziel vom Benutzer
+eingegeben. Die CSV muss dabei der gegebenen Form entsprechen: 15x15 Matrix und 
+sechs Gewichte.
+
+Die Schätzfunktion (Heuristik) ist definiert als der Abstand der Felder in der
+Manhattan-Metrik und erfüllt somit die Kriterien für eine monotone Heuristik.
+    1. Die Kosten werden nie überschätzt, da ein diagonales Überqueren der Felder
+    nicht erlaubt ist und deshalb die Manhattan-Metrik den kürzesten Weg liefert.
+
+    2. Die Monotonie wird durch die Gewichtung mit 1 gewährleisten.
+
+Die Felder auf dem Spielfeld haben unterschiedliche Gewichte, die angeben,
+wie aufwendig die Überquerung der Felder ist. Darüberhinaus gibt es Wasserfelder,
+diese können im Laufe einer Suche lediglich einmal überquert werden.
+Dadurch ergeben sich vom Standard A* abweichende Schwierigkeiten.
+Für die Berechnung der Kosten um ein Feld zu erreichen, werden die Gewichte aus
+einem Referenz-Array ausgelesen.
+
+Durch die Referenz zum vorangegangenen Feld, lässt sich der beschrittene Weg
+zurückverfolgen. Wasserfelder werden als Nachbarn ignoriert, wenn das Ziel im Wasser
+liegt oder auf dem beschrittenen Weg bereits Wasser überquert wurde.
