@@ -86,8 +86,8 @@ void initWeights()
     int i=0, j=0;
     char myString [100];
 
-    fscanf(fp,"%s");
-    fscanf(fp,"%s");
+    fscanf(fp,"%s", myString);
+    fscanf(fp,"%s", myString);
 
     while (fscanf(fp,"%d;%*[^;];%d;%*[^\n]", &i, &j) == 2)
     {
