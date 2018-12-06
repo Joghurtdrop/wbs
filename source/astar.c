@@ -165,7 +165,6 @@ node* processAlgorithmStep()
     LL_APPEND(closedList, bestGuess);
 
     node *neighbourList = createNeighbourList(bestGuess);
-
     node *neighbour;
     node *tmp;
 

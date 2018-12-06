@@ -95,7 +95,6 @@ void initWeights()
 
 void initMatrix()
 {
-
     for(size_t i = 0; i < 15; i++)
     {
         for(size_t j = 0; j < 15; j++)
@@ -106,8 +105,7 @@ void initMatrix()
 }
 
 void printMatrix()
-{
-    
+{    
     printf("\n");
     for(size_t i = 0; i < 15; i++)
     {
@@ -121,8 +119,6 @@ void printMatrix()
     printf("StartPunkt: %d, %d\n", startNode->x, startNode->y);
     printf("ZielPunkt: %d, %d\n", realEnd->x, realEnd->y);
     printf("Kosten der Strecke: %d\n", realEnd->realDist);
-    
-
 }
 
 void addPathToMatrix(){
