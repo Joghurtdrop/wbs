@@ -39,24 +39,24 @@ int main(int argc, char const *argv[])
 
 int getIntegerInput()
 {
-    char *p, s[100];
-    int n;
+    char *isInteger, userInput[100];
+    int number;
 
-    while(fgets(s, sizeof(s), stdin))
+    while(fgets(userInput, sizeof(userInput), stdin))
     {
-        n = strtol(s, &p, 10);
-        if (p == s || *p != '\n')
+        number = strtol(userInput, &isInteger, 10);
+        if (isInteger == userInput || *isInteger != '\n')
         {
-            printf("Bitte Natürlichezahl eingeben: ");
+            printf("Bitte natürliche Zahl eingeben: ");
         } else break;
     }
     
-    if (n < 0 || n > 14)
+    if (number < 0 || number > 14)
     {
         exit(1);
     }
 
-    return n;
+    return number;
 }
 
 void initVerge()
